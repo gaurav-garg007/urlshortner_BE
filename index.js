@@ -15,10 +15,12 @@ app.listen(process.env.PORT,()=>{
     console.log(`app run at ${process.env.PORT}`);
 })
 
-app.use(express.json());
 app.use(cors({
-    origin: "http://localhost:3000"
+    origin: "http://localhost:3000",
+    credentials: true
 }));
+app.options("*", cors());
+app.use(express.json());
 
 app.use("/url", urlRoute);
 app.get("/:id", async (req, res)=> {
