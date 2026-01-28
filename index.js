@@ -3,13 +3,11 @@ const { connectDB } = require("./connection");
 const urlRoute = require("./routes/url");
 const URL = require("./models/url");
 const cors = require('cors')
-const dotenv = require("dotenv");
-dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 8001;
+const PORT = 8001;
 
-connectDB(process.env.MONGOURL)
+connectDB("mongodb+srv://ggarg6406_db_user:jdgk0WNY4kOCL8dO@cluster0.l7dzf79.mongodb.net/?appName=Cluster0")
     .then(() => {
         console.log("mongo DB connected");
         app.listen(PORT, () => {
