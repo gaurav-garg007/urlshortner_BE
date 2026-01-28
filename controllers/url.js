@@ -1,13 +1,13 @@
 const { nanoid } = require("nanoid");
 const URL = require("../models/url");
 
-async function createShortUrl(req, res){
+async function createShortUrl(req, res) {
     const body = req.body;
     const urlId = nanoid(5);
 
-    try{
+    try {
 
-        if(!body.url) return res.status(400).json({message: "url is requires"})
+        if (!body.url) return res.status(400).json({ message: "url is requires" })
         await URL.create({
             redirectUrl: body.url,
             urlId,
@@ -18,23 +18,26 @@ async function createShortUrl(req, res){
             message: "url saved",
             url: urlId
         })
-    } catch(error){
+    } catch (error) {
         return res.status(500).json({
             message: error.message
         })
     }
 }
 
-async function getAnalytics(req, res){
+async function getAnalytics(req, res) {
     const urlId = req.params.id;
     console.log('sd', urlId);
-    try{
+    try {
         let urlInfo = await URL.findOne({ urlId });
+        if (!urlInfo) {
+            return res.status(404).json({ error: "URL not found" });
+        }
         return res.status(200).json({
             totalClicks: urlInfo.history.length,
             clickHistory: urlInfo.history
         });
-    } catch(error){
+    } catch (error) {
         return res.status(500).send("internal server error");
     }
 }
